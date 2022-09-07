@@ -4,5 +4,6 @@ import 'package:mobx_projeto/home.dart';
 void main() {
   runApp(MaterialApp(
     home: Home(),
+    debugShowCheckedModeBanner: false,
   ));
 }
