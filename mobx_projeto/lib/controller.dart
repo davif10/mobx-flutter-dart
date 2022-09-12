@@ -5,10 +5,10 @@ class Controller = ControllerBase with _$Controller;
 abstract class ControllerBase with Store{
   ControllerBase() {
     //Executa sempre que o observável tem seu estado alterado
-    autorun((_) {
-      print("Email: $email");
-      print("Senha: $senha");
-    });
+    // autorun((_) {
+    //   print("Email: $email");
+    //   print("Senha: $senha");
+    // });
   }
   //Combinação de dois ou mais observáveis
   @computed
@@ -20,11 +20,24 @@ abstract class ControllerBase with Store{
   @observable
   String senha = '';
 
+  @observable
+  bool usuarioLogado = false;
+  @observable
+  bool carregando = false;
+
   @action
   void setEmail(valor) => email = valor;
 
   @action
   void setSenha(valor) => senha = valor;
+
+  @action
+  logar() async{
+    carregando= true;
+    await Future.delayed(Duration(seconds: 3));
+    carregando = false;
+    usuarioLogado = true;
+  }
 
   @computed
   bool get formularioValidado => email.length >= 5 && senha.length >= 5;
