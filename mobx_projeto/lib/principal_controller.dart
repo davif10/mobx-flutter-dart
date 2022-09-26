@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:mobx_projeto/item_controller.dart';
 part 'principal_controller.g.dart';
 class PrincipalController = PrincipalControllerBase with _$PrincipalController;
 
@@ -9,11 +10,11 @@ abstract class PrincipalControllerBase with Store{
   @action
   void setNovoItem(String valor) => novoItem = valor;
 
-  ObservableList<String> listaItens = ObservableList();
+  ObservableList<ItemController> listaItens = ObservableList<ItemController>();
 
   @action
   void adicionarItem(){
-    listaItens.add(novoItem);
+    listaItens.add(ItemController(novoItem));
   }
 
 }

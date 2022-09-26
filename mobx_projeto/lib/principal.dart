@@ -8,39 +8,38 @@ class Principal extends StatefulWidget {
 }
 
 class _PrincipalState extends State<Principal> {
-
   PrincipalController _principalController = PrincipalController();
 
-  _dialog(){
+  _dialog() {
     showDialog(
         context: context,
-        builder: (_){
+        builder: (_) {
           return AlertDialog(
             title: Text("Adicionar item"),
             content: TextField(
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Digite uma descrição..."
-              ),
+                  border: OutlineInputBorder(),
+                  labelText: "Digite uma descrição..."),
               onChanged: _principalController.setNovoItem,
             ),
             actions: [
               TextButton(
-                  onPressed: (){ Navigator.pop(context); },
-                  child: Text("Cancelar", style: TextStyle(
-                    color: Colors.red
-                  ),)
-              ),
-              TextButton(
-                  onPressed: (){
-                    _principalController.adicionarItem();
+                  onPressed: () {
+                    Navigator.pop(context);
                   },
-                  child: Text("Salvar")
-              )
+                  child: Text(
+                    "Cancelar",
+                    style: TextStyle(color: Colors.red),
+                  )),
+              TextButton(
+                  onPressed: () {
+                    _principalController.adicionarItem();
+                    Navigator.pop(context);
+                  },
+                  child: Text("Salvar"))
             ],
           );
-        }
-    );
+        });
   }
 
   @override
@@ -56,21 +55,32 @@ class _PrincipalState extends State<Principal> {
         builder: (_) {
           return ListView.builder(
             itemCount: _principalController.listaItens.length,
-            itemBuilder: (_, indice){
-              return ListTile(
-                title: Text(_principalController.listaItens[indice]),
-                onTap: (){
-
-                },
-              );
+            itemBuilder: (_, indice) {
+              var item = _principalController.listaItens[indice];
+              return Observer(builder: (_){
+                return ListTile(
+                  title: Text(
+                    item.titulo,
+                    style: TextStyle(
+                        decoration:
+                        item.marcado ? TextDecoration.lineThrough : null),
+                  ),
+                  leading: Checkbox(
+                    value: item.marcado,
+                    onChanged: (value)=> item.alterarMarcado(value!),
+                  ),
+                  onTap: () {
+                    item.marcado = !item.marcado;
+                  },
+                );
+              });
             },
           );
         },
-
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: (){
+        onPressed: () {
           _dialog();
         },
       ),
